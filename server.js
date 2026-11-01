@@ -21,23 +21,24 @@ mongoose
 
         console.log("MongoDB connected successfully");
 
-        console.log(
-            "Database:",
-            mongoose.connection.name
-        );
+        console.log("Database:", mongoose.connection.name);
 
         console.log(
             "Projects collection:",
             await Project.countDocuments()
         );
 
+        // Start server only after MongoDB connects
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+
     })
     .catch((error) => {
 
-        console.log(
-            "MongoDB connection error:",
-            error
-        );
+        console.error("MongoDB connection error:", error);
+
+        process.exit(1);
 
     });
 
@@ -59,12 +60,5 @@ app.get("/api/projects", async (req, res) => {
         });
 
     }
-
-});
-
-
-app.listen(PORT, () => {
-
-    console.log(`Server running on port ${PORT}`);
 
 });
